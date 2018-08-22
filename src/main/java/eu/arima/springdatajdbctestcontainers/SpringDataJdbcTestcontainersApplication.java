@@ -30,12 +30,6 @@ public class SpringDataJdbcTestcontainersApplication {
 	}
 
 	@Bean
-	public DataSource dataSource() {
-		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-		return builder.setType(EmbeddedDatabaseType.HSQL).build();
-	}
-
-	@Bean
 	public RelationalMappingContext relationalMappingContext() {
 		return new RelationalMappingContext();
 	}
