@@ -11,8 +11,6 @@ Run tests with:
     ./mvnw clean test
 ```
 
-# Compared with h2
-
 # Credits
 
 By https://www.arima.eu
