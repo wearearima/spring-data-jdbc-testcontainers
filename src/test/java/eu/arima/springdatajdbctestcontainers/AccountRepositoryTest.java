@@ -2,6 +2,7 @@ package eu.arima.springdatajdbctestcontainers;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +61,12 @@ public class AccountRepositoryTest {
         ));
     }
 
+    @Ignore("Paging repositories not supported https://jira.spring.io/browse/DATAJDBC-101")
     @Test
     public void pageable() {
         Pageable pageable = PageRequest.of(0, 20);
         Page<Account> accounts = this.accountRepository.findAll(pageable);
-        Assert.assertEquals(2, accounts.getSize());
+        Assert.assertEquals(3, accounts.getSize());
     }
 
     @Test
