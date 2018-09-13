@@ -47,19 +47,16 @@ public class AccountRepositoryTest {
 
     @Test
     public void save() {
-        int newId = 100;
-
         Account account = new Account();
-        account.setId(newId);
         account.setName("new");
         account.setUsername("newusername");
         account.setEmail("newemail@company.com");
         account.setCreated(new Date());
 
-        this.accountRepository.save(account);
+        Account newAccount = this.accountRepository.save(account);
 
         Assert.assertEquals(1, JdbcTestUtils.countRowsInTableWhere(
-                (JdbcTemplate) template.getJdbcOperations(), "account", "id = " + account.getId()
+                (JdbcTemplate) template.getJdbcOperations(), "account", "id = " + newAccount.getId()
         ));
     }
 
