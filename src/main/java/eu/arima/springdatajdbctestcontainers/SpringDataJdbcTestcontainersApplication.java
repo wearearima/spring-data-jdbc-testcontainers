@@ -3,8 +3,10 @@ package eu.arima.springdatajdbctestcontainers;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
+import org.springframework.data.jdbc.repository.config.JdbcConfiguration;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentPropertyAccessor;
 import org.springframework.data.mapping.PreferredConstructor;
@@ -21,22 +23,17 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 import java.util.function.Function;
 
+/**
+ * {@link JdbcConfiguration} registers {@link RelationalMappingContext} and {@link RelationalConverter} for Spring Data
+ * JDBC to work.
+ */
+@Import(JdbcConfiguration.class)
 @EnableJdbcRepositories
 @SpringBootApplication
 public class SpringDataJdbcTestcontainersApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringDataJdbcTestcontainersApplication.class, args);
-	}
-
-	@Bean
-	public RelationalMappingContext relationalMappingContext() {
-		return new RelationalMappingContext();
-	}
-
-	@Bean
-	public RelationalConverter relationalConverter() {
-		return new BasicRelationalConverter(new RelationalMappingContext());
 	}
 
 }
