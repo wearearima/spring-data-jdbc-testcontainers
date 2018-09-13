@@ -38,7 +38,7 @@ public class AccountRepositoryTest {
     private NamedParameterJdbcTemplate template;
 
     @Test
-    public void findAll() {
+    public void findById() {
         Account account = this.accountRepository.findById(1).get();
 
         Assert.assertEquals("user1", account.getUsername());
