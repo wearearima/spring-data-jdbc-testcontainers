@@ -11,7 +11,7 @@ Run tests with:
     ./mvnw clean test
 ```
 
-Tests are implemented with [HSQLDB](http://hsqldb.org/) database in `feature/hsqldb` branch. 
+Tests are implemented with [HSQLDB](http://hsqldb.org/) database in `feature/hsqldb` branch to compare how they perform. In our tests we've got similar times with HSQLDB and Testcontainers (Docker engine must be started). 
 
 # Credits
 
