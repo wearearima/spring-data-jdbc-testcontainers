@@ -1,43 +1,37 @@
 package eu.arima.springdatajdbctestcontainers;
 
 import org.junit.Assert;
-import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.PostgreSQLContainer;
 
+import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.Date;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(initializers = AccountRepositoryTest.Initializer.class)
 @Transactional
 @SpringBootTest
 public class AccountRepositoryTest {
-
-    @ClassRule
-    public static PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer();
 
     @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
     private NamedParameterJdbcTemplate template;
+
+    @Autowired
+    DataSource dataSource;
 
     @Test
     public void findById() {
@@ -91,22 +85,6 @@ public class AccountRepositoryTest {
         int length = this.accountRepository.accountsLength();
 
         Assert.assertEquals(1, length);
-    }
-
-    /**
-     * This class replaces the embedded database with a PostgreSQL Docker Container
-     */
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-
-        @Override
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.url=" + postgresqlContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + postgresqlContainer.getUsername(),
-                    "spring.datasource.password=" + postgresqlContainer.getPassword())
-                    .applyTo(configurableApplicationContext.getEnvironment());
-        }
-
     }
 
 }
