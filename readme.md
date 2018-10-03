@@ -11,6 +11,8 @@ Run tests with:
     ./mvnw clean test
 ```
 
+Tests are implemented with [HSQLDB](http://hsqldb.org/) database in `feature/hsqldb` branch. 
+
 # Credits
 
 By https://www.arima.eu
