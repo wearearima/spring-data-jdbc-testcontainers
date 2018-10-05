@@ -1,7 +1,6 @@
 # Spring Data JDBC with Testcontainers
 
-[Spring Data JDBC](https://github.com/spring-projects/spring-data-jdbc) showcase with tests using 
-[Testcontainers](https://www.testcontainers.org/)
+[Spring Data JDBC](https://github.com/spring-projects/spring-data-jdbc) showcase with [Testcontainers](https://www.testcontainers.org/)
  
 Run tests with: 
 
