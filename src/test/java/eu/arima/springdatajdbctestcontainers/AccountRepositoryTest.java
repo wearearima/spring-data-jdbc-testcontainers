@@ -1,5 +1,8 @@
 package eu.arima.springdatajdbctestcontainers;
 
+import java.util.Arrays;
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Ignore;
@@ -7,25 +10,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import java.util.Arrays;
-import java.util.Date;
-
 @RunWith(SpringRunner.class)
-@ContextConfiguration(initializers = AccountRepositoryTest.Initializer.class)
 @Transactional
 @SpringBootTest
 public class AccountRepositoryTest {
@@ -93,20 +90,13 @@ public class AccountRepositoryTest {
         Assert.assertEquals(1, length);
     }
 
-    /**
-     * This class replaces the embedded database with a PostgreSQL Docker Container
-     */
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-
-        @Override
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.url=" + postgresqlContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + postgresqlContainer.getUsername(),
-                    "spring.datasource.password=" + postgresqlContainer.getPassword())
-                    .applyTo(configurableApplicationContext.getEnvironment());
-        }
-
+    
+    @DynamicPropertySource
+    static void postgresqlProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgresqlContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", postgresqlContainer::getUsername);
+        registry.add("spring.datasource.password", postgresqlContainer::getPassword);
     }
+
 
 }
