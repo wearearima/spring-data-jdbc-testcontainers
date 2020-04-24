@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.junit.Assert;
-import org.junit.ClassRule;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -17,18 +15,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-@RunWith(SpringRunner.class)
+
 @Transactional
 @SpringBootTest
+@Testcontainers
 public class AccountRepositoryTest {
 
-    @ClassRule
-    public static PostgreSQLContainer postgresqlContainer = new PostgreSQLContainer();
+    @Container
+    public static PostgreSQLContainer<?> postgresqlContainer = new PostgreSQLContainer<>();
 
     @Autowired
     private AccountRepository accountRepository;
@@ -60,7 +60,7 @@ public class AccountRepositoryTest {
         ));
     }
 
-    @Ignore("Paging repositories not supported https://jira.spring.io/browse/DATAJDBC-101")
+    @Disabled("Paging repositories not supported https://jira.spring.io/browse/DATAJDBC-101")
     @Test
     public void pageable() {
         Pageable pageable = PageRequest.of(0, 20);
